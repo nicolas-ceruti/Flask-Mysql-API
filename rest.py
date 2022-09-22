@@ -5,7 +5,9 @@ from flask_mysqldb import MySQL
 from flask import Flask, jsonify, request
 from flask_mysqldb import MySQL
 from flask_cors import CORS, cross_origin
+from flask_swagger_ui import get_swaggerui_blueprint
 import json
+
 
 app = Flask(__name__)
 
@@ -15,6 +17,22 @@ mydb = mysql.connector.connect(
  password="123456",
  database="testepython"
 )
+
+@app.route("/static/<path:path>")
+def send_static(path):
+  return send_from_directory('static', path)
+
+SWAGGER_URL = '/swagger'
+API_URL = '/static/swagger.json'
+swaggerui_blueprint = get_swaggerui_blueprint(
+  SWAGGER_URL,
+  API_URL,
+  config={
+    'app_name' : 'OK'
+  }
+)
+app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
+# app.register_blueprint(request_api.get_blueprint())
 
 
 def error_error():       
