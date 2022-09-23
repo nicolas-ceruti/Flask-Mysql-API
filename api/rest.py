@@ -18,27 +18,6 @@ mydb = mysql.connector.connect(
  database="testepython"
 )
 
-@app.route("/static/<path:path>")
-def send_static(path):
-  return send_from_directory('static', path)
-
-SWAGGER_URL = '/swagger'
-API_URL = '/static/swagger.json'
-swaggerui_blueprint = get_swaggerui_blueprint(
-  SWAGGER_URL,
-  API_URL,
-  config={
-    'app_name' : 'OK'
-  }
-)
-app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
-# app.register_blueprint(request_api.get_blueprint())
-
-
-def error_error():       
-    return jsonify({"mensagem": "Não foi possível concluir a ação!"})
-
-
 
 @app.route("/get", methods=["GET"])
 def get():
@@ -85,7 +64,7 @@ def create():
     data = request.get_json()
     sql=f"INSERT INTO usuarios (nome, email, senha, profissao) VALUES ('{data['nome']}', '{data['email']}','{data['senha']}', '{data['profissao']}')"
     mycursor = mydb.cursor().execute(sql)
-    return ("Usuário criado com Sucesso!")
+    return ("Usuário Criado com Sucesso!")
   except Exception as ex:
     data = request.get_json
     return (error_error())
@@ -102,6 +81,28 @@ def update():
   except Exception as ex:
     data = request.get_json
     return (error_error())
+
+
+
+def error_error():       
+    return jsonify({"mensagem": "Não foi possível concluir a ação!"})
+
+
+
+@app.route("/static/<path:path>")  #Documentação OPENAPI/Swagger
+def send_static(path):
+  return send_from_directory('static', path)
+
+SWAGGER_URL = '/swagger'
+API_URL = '/static/swagger.yaml'
+swaggerui_blueprint = get_swaggerui_blueprint(
+  SWAGGER_URL,
+  API_URL,
+  config={
+    'app_name' : 'API'
+  }
+)
+app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
 
 
 if __name__ == '__main__':

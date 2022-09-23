@@ -1,0 +1,190 @@
+openapi: 3.0.3
+info: 
+  title: Python CRUD   
+  description: |-
+    API REST desenvolvida com Flask e MySQL
+
+    Mais informações sobre o projeto:
+    - [Github](https://github.com/nicolas-ceruti/Flask-Mysql-API)
+
+tags:
+  - name: User
+    description: CRUD Usuários
+
+paths:
+  /getOne/{id}:
+    get:
+      tags:
+        - User
+      summary: Retorna o usuário pelo ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: O id do usuário que será retornado
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Usuário encontrado!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  nome:
+                    type: string
+                  email:
+                    type: string
+                  senha:
+                    type: string
+                  profissao:
+                    type: string
+        '400':
+          description: ID inválido!
+        '404':
+          description: O Usuário não foi encontrado!
+
+
+  /get:
+    get:
+      tags:
+        - User
+      summary: Retorna todos os usuários
+      responses:
+        '200':
+          description: Usuário encontrado!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  nome:
+                    type: string
+                  email:
+                    type: string
+                  senha:
+                    type: string
+                  profissao:
+                    type: string
+        '400':
+          description: ID inválido!
+        '404':
+          description: O Usuário não foi encontrado!
+  
+
+  /create:
+    post:
+      tags:
+        - User
+      summary: Cria um Usuário
+      requestBody:
+        description: Crie um novo Usuário no Banco de Dados
+        content:
+          application/json:
+            schema:
+                type: object
+                properties:
+                  nome:
+                    type: string
+                  email:
+                    type: string
+                  senha:
+                    type: string
+                  profissao:
+                    type: string
+        required: true
+      responses:
+        '200':
+          description: Usuário cadastrado!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  nome:
+                    type: string
+                  email:
+                    type: string
+                  senha:
+                    type: string
+                  profissao:
+                    type: string
+        '400':
+          description: Valores inválidos!
+        '404':
+          description: O Usuário não foi cadastrado!
+
+  /update:
+    put:
+      tags:
+        - User
+      summary: Atualiza um Usuário
+      requestBody:
+        description: Crie um novo Usuário no Banco de Dados
+        content:
+          application/json:
+            schema:
+                type: object
+                properties:
+                  nome:
+                    type: string
+                  email:
+                    type: string
+                  senha:
+                    type: string
+                  profissao:
+                    type: string
+                  id:
+                    type: integer
+        required: true
+      responses:
+        '200':
+          description: Usuário Atualizado!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  nome:
+                    type: string
+                  email:
+                    type: string
+                  senha:
+                    type: string
+                  profissao:
+                    type: string
+        '400':
+          description: Valores inválidos!
+        '404':
+          description: O Usuário não foi Atualizado!
+
+  /delete:
+    delete:
+      tags:
+        - User
+      summary: Exclui um Usuário
+      requestBody:
+        description: Remova um Usuário do Banco de Dados
+        content:
+          application/json:
+            schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+      responses:
+        '200':
+          description: Usuário Excluído!
+        '400':
+          description: Valores inválidos!
+        '404':
+          description: O Usuário não foi Excluído!
